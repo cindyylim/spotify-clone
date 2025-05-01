@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+      "allowImportingTsExtensions": true,
+      "jsx": "react-jsx",
+      "noEmit": true,
+      "module": "ESNext",
+      "moduleResolution": "node",
+      "allowSyntheticDefaultImports": true,
+      "baseUrl": ".",
+      "paths": {
+        "@/*": [
+          "./src/*"
+        ]
+      }
+    }
+  }
+  
