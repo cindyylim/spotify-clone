@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Clock, Pause, Play } from "lucide-react";
-import { usePlayerStore } from "@/store/useAudioStore";
+import { usePlayerStore } from "@/store/usePlayerStore";
 
 const formatDuration = (seconds:number) => {
     const minutes = Math.floor(seconds/60);
