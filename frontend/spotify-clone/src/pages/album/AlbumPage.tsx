@@ -59,7 +59,7 @@ const AlbumPage = () => {
                   </span>
                   <span>
                     {currentAlbum?.songs.length}{" "}
-                    {currentAlbum?.songs.length === 0 ? "songs" : "song"}
+                    {currentAlbum?.songs.length > 1 ? "songs" : "song"}
                   </span>
                   <span>{currentAlbum?.releaseYear}</span>
                 </div>

@@ -23,7 +23,7 @@ const LeftSidebar = () => {
             className={cn(
               buttonVariants({
                 variant: "ghost",
-                className: "w-full justify-start text-white hover:bg-zinc-800",
+                className: "w-full justify-start text-white hover:bg-zinc-100",
               })
             )}
           >
@@ -37,7 +37,7 @@ const LeftSidebar = () => {
                 buttonVariants({
                   variant: "ghost",
                   className:
-                    "w-full justify-start text-white hover:bg-zinc-800",
+                    "w-full justify-start text-white hover:bg-zinc-100",
                 })
               )}
             >
