@@ -9,6 +9,7 @@ import AlbumsTabContent from "./AlbumsTabContent";
 import { useEffect } from "react";
 import { useMusicStore } from "@/store/useMusicStore";
 import ArtistsTabContent from "./ArtistsTabContent";
+import Topbar from "@/components/Topbar";
 
 const AdminPage = () => {
   const { isAdmin, isLoading } = useAuthStore();
@@ -22,6 +23,7 @@ const AdminPage = () => {
   
   return (
     <div className="min-h-screen bg-gradient-to-b from-zinc-800 via-zinc-900 to-black text-zinc-100 p-8">
+      <Topbar/> 
       <Header />
       <DashboardStats />
       <Tabs defaultValue="songs" className="space-y-6">

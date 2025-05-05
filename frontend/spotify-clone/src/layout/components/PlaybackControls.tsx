@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import { useMusicStore } from "@/store/useMusicStore";
 import { usePlayerStore } from "@/store/usePlayerStore";
 import { Laptop2, ListMusic, Mic2, Pause, Play, Repeat, Shuffle, SkipBack, SkipForward, Volume1 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -17,7 +18,14 @@ export const PlaybackControls = () => {
 	const [currentTime, setCurrentTime] = useState(0);
 	const [duration, setDuration] = useState(0);
 	const audioRef = useRef<HTMLAudioElement | null>(null);
-
+    const {artists, fetchArtists} = useMusicStore();
+    useEffect(() => {
+        fetchArtists()
+    }, [fetchArtists])
+    const getArtistName = (artistId: string) => {
+        const artist = artists.find((a) => a._id === artistId);
+        return artist ? artist.name : "Unknown Artist";
+    };
 	useEffect(() => {
 		audioRef.current = document.querySelector("audio");
 
@@ -69,7 +77,7 @@ export const PlaybackControls = () => {
 									{currentSong.title}
 								</div>
 								<div className='text-sm text-zinc-400 truncate hover:underline cursor-pointer'>
-									{currentSong.artist}
+									{getArtistName(currentSong.artist)}
 								</div>
 							</div>
 						</>
@@ -134,18 +142,12 @@ export const PlaybackControls = () => {
 				</div>
 				{/* volume controls */}
 				<div className='hidden sm:flex items-center gap-4 min-w-[180px] w-[30%] justify-end'>
-					<Button size='icon' variant='ghost' className='hover:text-white text-zinc-400'>
-						<Mic2 className='h-4 w-4' />
-					</Button>
-					<Button size='icon' variant='ghost' className='hover:text-white text-zinc-400'>
+					<Button size='icon' variant='ghost' className='text-green-400'>
 						<ListMusic className='h-4 w-4' />
-					</Button>
-					<Button size='icon' variant='ghost' className='hover:text-white text-zinc-400'>
-						<Laptop2 className='h-4 w-4' />
 					</Button>
 
 					<div className='flex items-center gap-2'>
-						<Button size='icon' variant='ghost' className='hover:text-white text-zinc-400'>
+						<Button size='icon' variant='ghost' className='text-green-400'>
 							<Volume1 className='h-4 w-4' />
 						</Button>
 
