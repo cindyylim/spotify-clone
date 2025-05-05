@@ -12,7 +12,7 @@ const formatTime = (seconds: number) => {
 
 export const PlaybackControls = () => {
 	const { currentSong, isPlaying, togglePlay, playNext, playPrevious } = usePlayerStore();
-
+	const [repeat, setRepeat] = useState(false);
 	const [volume, setVolume] = useState(75);
 	const [currentTime, setCurrentTime] = useState(0);
 	const [duration, setDuration] = useState(0);
@@ -31,17 +31,20 @@ export const PlaybackControls = () => {
 		audio.addEventListener("loadedmetadata", updateDuration);
 
 		const handleEnded = () => {
-			usePlayerStore.setState({ isPlaying: false });
+			if (!repeat) {
+				usePlayerStore.setState({ isPlaying: false });
+			} 
 		};
 
 		audio.addEventListener("ended", handleEnded);
+		audio.loop = repeat;
 
 		return () => {
 			audio.removeEventListener("timeupdate", updateTime);
 			audio.removeEventListener("loadedmetadata", updateDuration);
 			audio.removeEventListener("ended", handleEnded);
 		};
-	}, [currentSong]);
+	}, [currentSong, repeat]);
 
 	const handleSeek = (value: number[]) => {
 		if (audioRef.current) {
@@ -78,14 +81,14 @@ export const PlaybackControls = () => {
 					<div className='flex items-center gap-4 sm:gap-6'>
 						<Button
 							size='icon'
-							className='hidden sm:inline-flex hover:text-white text-zinc-400 bg-white'
+							className='hidden sm:inline-flex hover:text-white text-zinc-400 bg-transparent'
 						>
 							<Shuffle className='h-4 w-4' />
 						</Button>
 
 						<Button
 							size='icon'
-							className='hover:text-white text-zinc-400 bg-white'
+							className='hover:text-white text-zinc-400 bg-transparent'
 							onClick={playPrevious}
 							disabled={!currentSong}
 						>
@@ -102,7 +105,7 @@ export const PlaybackControls = () => {
 						</Button>
 						<Button
 							size='icon'
-							className='hover:text-white text-zinc-400 bg-white'
+							className='hover:text-white text-zinc-400 bg-transparent'
 							onClick={playNext}
 							disabled={!currentSong}
 						>
@@ -110,7 +113,8 @@ export const PlaybackControls = () => {
 						</Button>
 						<Button
 							size='icon'
-							className='hidden sm:inline-flex hover:text-white text-zinc-400 bg-white'
+							onClick={() => setRepeat(!repeat)}
+							className={`hidden sm:inline-flex hover:text-white text-zinc-400 ${repeat ? 'text-green-500' : 'bg-transparent'}`}
 						>
 							<Repeat className='h-4 w-4' />
 						</Button>
