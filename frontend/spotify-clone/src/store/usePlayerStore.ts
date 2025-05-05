@@ -22,6 +22,8 @@ interface PlayerState {
 	playNext: () => void;
 	playPrevious: () => void;
 	resetProgress: () => void;
+	playAlbum: (songs: Song[], startIndex: number) => void;
+	togglePlay: () => void;
 }
 
 export const usePlayerStore = create<PlayerState>((set, get) => ({
@@ -117,6 +119,21 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
 		if (currentIndex <= 0) return;
 
 		set({ currentSong: queue[currentIndex - 1], progress: 0 });
+	},
+	playAlbum: (songs: Song[], startIndex = 0) => {
+		if (songs.length === 0) return;
+
+		const song = songs[startIndex];
+		set({
+			queue: songs,
+			currentSong: song,
+			isPlaying: true,
+		});
+	},
+	togglePlay: () => {
+		set({
+			isPlaying: !get().isPlaying,
+		});
 	},
 }));
 

@@ -13,13 +13,18 @@ const formatDuration = (seconds:number) => {
 }
 const AlbumPage = () => {
   const { albumId } = useParams();
-  const { fetchAlbumById, currentAlbum, isLoading } = useMusicStore();
+  const { fetchAlbumById, currentAlbum, isLoading, artists, fetchArtists} = useMusicStore();
   const {currentSong, isPlaying, playAlbum, togglePlay} = usePlayerStore();
   useEffect(() => {
     if (albumId) fetchAlbumById(albumId);
-  }, [fetchAlbumById, albumId]);
+    fetchArtists()
+  }, [fetchAlbumById, albumId, fetchArtists]);
   if (isLoading) return null;
 
+  const getArtistName = (artistId: string) => {
+      const artist = artists.find((a) => a._id === artistId);
+      return artist ? artist.name : "Unknown Artist";
+  };
   const handlePlayAlbum = () => {
     if (!currentAlbum) return;
     const isCurrentAlbumPlaying = currentAlbum?.songs.some((song => song._id === currentSong?._id));
@@ -109,7 +114,7 @@ const AlbumPage = () => {
                         />
                         <div>
                             <div className="font-medium text-white">{song.title}</div>
-                            <div>{song.artist}</div>
+                            <div>{getArtistName(song.artist)}</div>
                       </div>
                       </div>
                       <div className="flex items-center">{song.createdAt.split("T")[0]}</div>
