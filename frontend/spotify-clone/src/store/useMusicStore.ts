@@ -82,8 +82,22 @@ export const useMusicStore = create<MusicStore>((set) => ({
 	fetchSongs: async () => {
 		set({ isLoading: true, error: null });
 		try {
-			const response = await axiosInstance.get("/songs");
-			set({ songs: response.data });
+			// Fetch all public songs from different endpoints
+			const [featuredResponse, madeForYouResponse, trendingResponse] = await Promise.all([
+				axiosInstance.get("/songs/featured"),
+				axiosInstance.get("/songs/made-for-you"),
+				axiosInstance.get("/songs/trending"),
+			]);
+
+			// Combine all songs and remove duplicates
+			const allSongs = [
+				...featuredResponse.data,
+				...madeForYouResponse.data,
+				...trendingResponse.data,
+			];
+			const uniqueSongs = Array.from(new Map(allSongs.map(song => [song._id, song])).values());
+			
+			set({ songs: uniqueSongs });
 		} catch (error: any) {
 			set({ error: error.response.data.message });
 		} finally {

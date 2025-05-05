@@ -1,5 +1,5 @@
 import { axiosInstance } from "@/lib/axios";
-import { Message } from "@/types";
+import { Message, User } from "@/types";
 import { create } from "zustand";
 import { io } from "socket.io-client";
 
@@ -13,6 +13,7 @@ interface ChatStore {
   onlineUsers: Set<string>;
   userActivities: Map<string, string>;
   messages: Message[];
+  selectedUser: User;
   initSocket: (userId: string) => void;
   disconnectSocket: () => void;
   sendMessage: (receiverId: string, senderId: string, message: string) => void;

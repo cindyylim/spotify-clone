@@ -13,9 +13,7 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Clear the token and redirect to login
       delete axiosInstance.defaults.headers.common["Authorization"];
-      window.location.href = "/";
     }
     return Promise.reject(error);
   }

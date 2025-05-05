@@ -136,7 +136,7 @@ const PlaybackControls = () => {
 	};
 
 	return (
-		<div className="flex flex-col gap-4 p-4 bg-zinc-900 rounded-lg">
+		<div className="flex flex-col gap-4 p-2 bg-zinc-900 rounded-lg">
 			<div className="flex items-center gap-2">
 				<div
 					className="flex-1"
