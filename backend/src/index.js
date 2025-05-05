@@ -11,6 +11,8 @@ import { clerkMiddleware } from "@clerk/express";
 import fileUpload from "express-fileupload";
 import path from "path";
 import cors from "cors";
+import { initializeSocket } from "./lib/socket.js";
+import {createServer} from "http";
 
 dotenv.config();
 
@@ -18,10 +20,14 @@ const app = express();
 const PORT = process.env.PORT;
 const __dirname = path.resolve();
 
-app.use(cors({
+const httpServer = createServer(app);
+initializeSocket(httpServer);
+app.use(
+  cors({
     origin: "http://localhost:3000",
     credentials: true,
-}));
+  })
+);
 
 app.use(express.json());
 app.use(clerkMiddleware());
@@ -44,10 +50,12 @@ app.use("/api/albums", albumRoutes);
 app.use("/api/stats", statRoutes);
 
 app.use((err, req, res, next) => {
-    res.status(500).json({message: "Internal server error", error: err.message});
+  res
+    .status(500)
+    .json({ message: "Internal server error", error: err.message });
 });
 
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log("Server is running on port " + PORT);
   connectDB();
 });
