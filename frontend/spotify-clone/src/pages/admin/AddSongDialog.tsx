@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { axiosInstance } from "@/lib/axios";
 import { useMusicStore } from "@/store/useMusicStore";
 import { Plus, Upload } from "lucide-react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 interface NewSong {
@@ -24,7 +24,7 @@ interface NewSong {
 }
 
 const AddSongDialog = () => {
-	const { albums } = useMusicStore();
+	const { albums, artists, fetchArtists } = useMusicStore();
 	const [songDialogOpen, setSongDialogOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -43,6 +43,10 @@ const AddSongDialog = () => {
 	const audioInputRef = useRef<HTMLInputElement>(null);
 	const imageInputRef = useRef<HTMLInputElement>(null);
 
+	useEffect(() => {
+		fetchArtists();
+	}, []);
+
 	const handleSubmit = async () => {
 		setIsLoading(true);
 
@@ -54,7 +58,7 @@ const AddSongDialog = () => {
 			const formData = new FormData();
 
 			formData.append("title", newSong.title);
-			formData.append("artist", newSong.artist);
+			formData.append("artistId", newSong.artist);
 			formData.append("duration", newSong.duration);
 			if (newSong.album && newSong.album !== "none") {
 				formData.append("albumId", newSong.album);
@@ -167,11 +171,21 @@ const AddSongDialog = () => {
 
 					<div className='space-y-2'>
 						<label className='text-sm font-medium'>Artist</label>
-						<Input
+						<Select
 							value={newSong.artist}
-							onChange={(e) => setNewSong({ ...newSong, artist: e.target.value })}
-							className='bg-zinc-100 border-zinc-700'
-						/>
+							onValueChange={(value) => setNewSong({ ...newSong, artist: value })}
+						>
+							<SelectTrigger className='bg-zinc-100 border-zinc-700'>
+								<SelectValue placeholder='Select artist' />
+							</SelectTrigger>
+							<SelectContent className='bg-zinc-100 border-zinc-700'>
+								{artists.map((artist) => (
+									<SelectItem key={artist._id} value={artist._id}>
+										{artist.name}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
 					</div>
 
 					<div className='space-y-2'>

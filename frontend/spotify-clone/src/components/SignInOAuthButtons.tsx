@@ -15,7 +15,7 @@ const SignInOAuthButtons = () => {
             redirectUrlComplete: "/auth-callback",
         })
     }
-    return <Button onClick={signInWithGoogle} variant={"secondary"} className="w-full text-white border-zinc-200 h-11">Continue with Google</Button>
+    return <Button onClick={signInWithGoogle} variant={"ghost"} className="w-full border-zinc-200 h-11">Continue with Google</Button>
 }
 
 export default SignInOAuthButtons;

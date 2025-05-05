@@ -7,7 +7,8 @@ const songSchema = new mongoose.Schema(
       required: true,
     },
     artist: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Artist",
       required: true,
     },
     imageUrl: {

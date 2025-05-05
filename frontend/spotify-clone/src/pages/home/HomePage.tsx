@@ -5,21 +5,24 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import FeaturedSection from "./FeaturedSection";
 import SectionGrid from "./SectionGrid";
 import { usePlayerStore } from "@/store/usePlayerStore";
-
+import ArtistsGrid from "./ArtistsGrid";
 const HomePage = () => {
   const {
     fetchFeaturedSongs,
     fetchMadeForYouSongs,
     fetchTrendingSongs,
+    fetchArtists,
     isLoading,
     madeForYouSongs,
     trendingSongs,
     featuredSongs,
+    artists,
   } = useMusicStore();
-  useEffect(() => {
+  useEffect(()=> {
     fetchFeaturedSongs();
     fetchMadeForYouSongs();
     fetchTrendingSongs();
+    fetchArtists();
   }, [fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs]);
   const {initializeQueue} = usePlayerStore();
   useEffect(() => {
@@ -33,9 +36,6 @@ const HomePage = () => {
       <Topbar />
       <ScrollArea className="h-[calc(100vh-180px)]">
         <div className="p-4 sm:p-6">
-          <h1 className="text-2xl sm:text-3xl font-bold mb-6">
-            Good afternoon
-          </h1>
           <FeaturedSection />
           <div className="space-y-8">
             <SectionGrid
@@ -44,6 +44,7 @@ const HomePage = () => {
               isLoading={isLoading}
             ></SectionGrid>
             <SectionGrid title="Trending" songs={trendingSongs}isLoading={isLoading}></SectionGrid>
+            <ArtistsGrid title="Artists" artists={artists} isLoading={isLoading}></ArtistsGrid>
           </div>
         </div>
       </ScrollArea>

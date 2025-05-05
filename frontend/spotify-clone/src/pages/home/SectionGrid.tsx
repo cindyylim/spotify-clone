@@ -2,6 +2,8 @@ import SectionGridSkeleton from "@/components/skeletons/SectionGridSkeleton";
 import { Button } from "@/components/ui/button";
 import { Song } from "@/types";
 import PlayButton from "./PlayButton";
+import { useEffect } from "react";
+import { useMusicStore } from "@/store/useMusicStore";
 
 type SectionGridProps = {
     title: string;
@@ -10,6 +12,14 @@ type SectionGridProps = {
 }
 
 const SectionGrid = ({songs, title, isLoading}: SectionGridProps) => {
+    const {artists, fetchArtists} = useMusicStore();
+    useEffect(() => {
+        fetchArtists()
+    }, [fetchArtists])
+    const getArtistName = (artistId: string) => {
+        const artist = artists.find((a) => a._id === artistId);
+        return artist ? artist.name : "Unknown Artist";
+    };
     if (isLoading) return <SectionGridSkeleton/>
     return (
         <div className="mb-8">
@@ -27,7 +37,7 @@ const SectionGrid = ({songs, title, isLoading}: SectionGridProps) => {
                             <PlayButton song={song}/>
                         </div>
                         <h3 className="font-medium mb-2 truncate">{song.title}</h3>
-                        <p className="text-sm text-zinc-400 truncate">{song.artist}</p>
+                        <p className="text-sm text-zinc-400 truncate">{getArtistName(song.artist)}</p>
                     </div>
                 ))}
             </div>

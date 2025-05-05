@@ -41,3 +41,10 @@ export interface User {
     fullName: string;
     imageUrl: string;
 }
+
+export interface Artist {
+    _id: string;
+    name: string;
+    imageUrl: string;
+    songs: Song[];
+}

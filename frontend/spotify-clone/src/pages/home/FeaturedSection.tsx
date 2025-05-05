@@ -1,8 +1,17 @@
 import FeaturedGridSkeleton from "@/components/skeletons/FeaturedGridSkeleton";
 import {useMusicStore} from "@/store/useMusicStore";
 import PlayButton from "./PlayButton";
+import {useEffect} from "react";
 
 const FeaturedSection = () => {
+    const {artists, fetchArtists} = useMusicStore();
+    useEffect(() => {
+        fetchArtists()
+    }, [fetchArtists])
+    const getArtistName = (artistId: string) => {
+        const artist = artists.find((a) => a._id === artistId);
+        return artist ? artist.name : "Unknown Artist";
+    };
     const {isLoading, featuredSongs, error} = useMusicStore();
     if (isLoading) return <FeaturedGridSkeleton/>
     if (error) return <p className="text-red-500 mb-4 text-lg">{error}</p>
@@ -12,7 +21,7 @@ const FeaturedSection = () => {
                 <img src={song.imageUrl} alt={song.title} className="w-16 sm:w-20 h-16 sm:h-20 object-cover flex-shrink-0"/>
                 <div className="flex-1 p-4">
                     <p className="font-medium truncate">{song.title}</p>
-                    <p className="text-sm text-zinc-400 truncate">{song.artist}</p>
+                    <p className="text-sm text-zinc-400 truncate">{getArtistName(song.artist)}</p>
                 </div>
                 <PlayButton song={song}/>
             </div>

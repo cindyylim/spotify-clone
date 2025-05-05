@@ -13,6 +13,7 @@ import path from "path";
 import cors from "cors";
 import { initializeSocket } from "./lib/socket.js";
 import {createServer} from "http";
+import artistRoutes from "./routes/artist.router.js";
 
 dotenv.config();
 
@@ -26,6 +27,8 @@ app.use(
   cors({
     origin: "http://localhost:3000",
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
@@ -48,6 +51,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/songs", songRoutes);
 app.use("/api/albums", albumRoutes);
 app.use("/api/stats", statRoutes);
+app.use("/api/artists", artistRoutes);
 
 app.use((err, req, res, next) => {
   res

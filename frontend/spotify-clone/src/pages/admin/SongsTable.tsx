@@ -1,11 +1,16 @@
-
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useMusicStore } from "@/store/useMusicStore";
 import { Calendar, Trash2 } from "lucide-react";
+import { useEffect } from "react";
 
 const SongsTable = () => {
-	const { songs, isLoading, error, deleteSong } = useMusicStore();
+	const { songs, artists, isLoading, error, deleteSong, fetchSongs, fetchArtists } = useMusicStore();
+
+	useEffect(() => {
+		fetchSongs();
+		fetchArtists();
+	}, [fetchSongs, fetchArtists]);
 
 	if (isLoading) {
 		return (
@@ -22,6 +27,11 @@ const SongsTable = () => {
 			</div>
 		);
 	}
+
+	const getArtistName = (artistId: string) => {
+		const artist = artists.find((a) => a._id === artistId);
+		return artist ? artist.name : "Unknown Artist";
+	};
 
 	return (
 		<Table>
@@ -42,7 +52,7 @@ const SongsTable = () => {
 							<img src={song.imageUrl} alt={song.title} className='size-15 rounded object-cover' />
 						</TableCell>
 						<TableCell className='font-medium'>{song.title}</TableCell>
-						<TableCell>{song.artist}</TableCell>
+						<TableCell>{getArtistName(song.artist)}</TableCell>
 						<TableCell>
 							<span className='inline-flex items-center gap-1'>
 								<Calendar className='h-4 w-4' />

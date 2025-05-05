@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/store/useAuthStore";
-import { Music } from "lucide-react";
+import { Music, User2 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Header from "./Header";
 import DashboardStats from "./DashboardStats";
@@ -8,6 +8,7 @@ import SongsTabContent from "./SongsTabsContent";
 import AlbumsTabContent from "./AlbumsTabContent";
 import { useEffect } from "react";
 import { useMusicStore } from "@/store/useMusicStore";
+import ArtistsTabContent from "./ArtistsTabContent";
 
 const AdminPage = () => {
   const { isAdmin, isLoading } = useAuthStore();
@@ -39,12 +40,22 @@ const AdminPage = () => {
             <Music className="mr-2 size-4" />
             Albums
           </TabsTrigger>
+          <TabsTrigger
+            value="artists"
+            className="data-[state=active]:bg-zinc-200"
+          >
+            <User2 className="mr-2 size-4" />
+            Artists
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="songs">
           <SongsTabContent />
         </TabsContent>
         <TabsContent value="albums">
           <AlbumsTabContent />
+        </TabsContent>
+        <TabsContent value="artists">
+          <ArtistsTabContent />
         </TabsContent>
       </Tabs>
     </div>
