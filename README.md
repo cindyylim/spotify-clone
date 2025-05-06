@@ -84,32 +84,6 @@ cd ../frontend/spotify-clone
 npm run dev
 ```
 
-## Project Structure
-
-```
-spotify-clone/
-├── backend/
-│   ├── src/
-│   │   ├── controller/
-│   │   ├── models/
-│   │   ├── routes/
-│   │   ├── middleware/
-│   │   └── lib/
-│   └── package.json
-└── frontend/
-    └── spotify-clone/
-        ├── src/
-        │   ├── components/
-        │   ├── hooks/
-        │   ├── layout/
-        │   ├── lib/
-        │   ├── pages/
-        │   ├── store/
-        │   ├── types/
-        │   └── providers/
-        └── package.json
-```
-
 ## Features in Detail
 
 ### Music Playback
